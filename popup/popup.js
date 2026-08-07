@@ -1,6 +1,9 @@
-const button = document.getElementById("testBtn");
+const summarizeBtn = document.getElementById("summarizeBtn");
+const result = document.getElementById("result");
 
-button.addEventListener("click", async () => {
+summarizeBtn.addEventListener("click", async () => {
+  result.textContent = "Reading selected text...";
+
   const [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true,
@@ -15,16 +18,24 @@ button.addEventListener("click", async () => {
 
   chrome.tabs.sendMessage(
     tab.id,
-    {
-      action: "GET_SELECTED_TEXT",
-    },
-    (response) => {
-      if (!response) {
-        alert("No response received.");
+    { action: "GET_SELECTED_TEXT" },
+    async (response) => {
+      if (!response || !response.selectedText) {
+        result.textContent = "Please select some text first.";
         return;
       }
 
-      alert(response.selectedText || "No text selected.");
+      result.textContent = "Generating summary...";
+
+      try {
+        const summary = await summarizeText(response.selectedText);
+
+        result.textContent = summary;
+      } catch (error) {
+        console.error(error);
+
+        result.textContent = "Failed to generate summary.";
+      }
     },
   );
 });

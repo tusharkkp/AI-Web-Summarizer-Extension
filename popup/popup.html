@@ -1,22 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Web Summarizer</title>
-
     <link rel="stylesheet" href="popup.css" />
   </head>
 
   <body>
-    <div class="container">
-      <h2>AI Web Summarizer</h2>
+    <h2>AI Web Summarizer</h2>
 
-      <p>Phase 1 is working 🎉</p>
+    <button id="summarizeBtn">Summarize Selected Text</button>
 
-      <button id="testBtn">Test Extension</button>
-    </div>
+    <div id="result">Select some text first.</div>
 
+    <script src="../config.js"></script>
+    <script src="../services/gemini.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
