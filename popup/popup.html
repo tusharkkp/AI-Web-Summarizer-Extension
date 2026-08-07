@@ -1,15 +1,33 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <title>AI Web Summarizer</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
 
   <body>
-    <h2>AI Web Summarizer</h2>
+    <h2>🤖 AI Web Summarizer</h2>
 
     <button id="summarizeBtn">Summarize Selected Text</button>
 
-    <div id="result">Select some text first.</div>
+    <div id="loading" hidden>⏳ Generating summary...</div>
+
+    <div id="result" hidden>
+      <h3>📝 Summary</h3>
+      <p id="summary"></p>
+
+      <h3>⭐ Key Points</h3>
+      <ul id="points"></ul>
+
+      <h3>🏷 Keywords</h3>
+      <div id="keywords"></div>
+
+      <h3>⏱ Reading Time</h3>
+      <p id="readingTime"></p>
+
+      <button id="copyBtn">📋 Copy Summary</button>
+    </div>
 
     <script src="../config.js"></script>
     <script src="../services/gemini.js"></script>

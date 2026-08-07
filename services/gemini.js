@@ -1,4 +1,30 @@
 async function summarizeText(text) {
+  const prompt = `
+You are an AI assistant.
+
+Analyze the following text.
+
+Return ONLY valid JSON.
+
+{
+  "summary": "...",
+  "keyPoints": [
+    "...",
+    "...",
+    "..."
+  ],
+  "keywords": [
+    "...",
+    "...",
+    "..."
+  ],
+  "readingTime": "..."
+}
+
+Text:
+${text}
+`;
+
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 
   const response = await fetch(url, {
@@ -13,9 +39,7 @@ async function summarizeText(text) {
         {
           parts: [
             {
-              text: `Summarize the following text in simple bullet points:
-
-${text}`,
+              text: prompt,
             },
           ],
         },
