@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+
+  "name": "AI Web Summarizer",
+
+  "description": "Summarize selected text using Gemini AI.",
+
+  "version": "1.0.0",
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "AI Web Summarizer"
+  },
+
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  }
+}
