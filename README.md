@@ -101,23 +101,6 @@ If you've ever searched for a **free AI summarizer Chrome extension**, a **Gemin
 
 ---
 
-## 📸 Screenshots & Demo
-
-> Screenshots aren't bundled in this repository yet. Add them to a `docs/screenshots/` folder using SEO-friendly, descriptive filenames like the ones below, then this section will render them automatically on GitHub:
-
-| Suggested filename | What to capture |
-|---|---|
-| `docs/screenshots/ai-web-summarizer-popup-light-mode.png` | Main popup UI in light mode |
-| `docs/screenshots/ai-web-summarizer-popup-dark-mode.png` | Main popup UI in dark mode |
-| `docs/screenshots/ai-web-summarizer-context-menu.png` | The right-click "Summarize with AI" menu |
-| `docs/screenshots/ai-web-summarizer-summary-history.png` | The searchable history dashboard |
-| `docs/screenshots/ai-web-summarizer-pdf-export.png` | The print/export PDF view |
-
-Once added, embed them like this:
-
-```markdown
-![AI Web Summarizer popup UI](docs/screenshots/ai-web-summarizer-popup-light-mode.png)
-```
 
 ---
 
