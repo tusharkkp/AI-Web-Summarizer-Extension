@@ -5,33 +5,46 @@
     <title>AI Web Summarizer</title>
     <link rel="stylesheet" href="popup.css" />
   </head>
-
   <body>
-    <h2>🤖 AI Web Summarizer</h2>
+    <main class="popup-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">AI WEB SUMMARIZER</p>
+          <h1>Make every page clearer.</h1>
+        </div>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      </header>
 
-    <button id="summarizeBtn">Summarize Selected Text</button>
+      <section class="control-card" aria-label="Summary settings">
+        <label>Summary length<select id="summaryLength"><option value="short">Short</option><option value="standard" selected>Standard</option><option value="detailed">Detailed</option></select></label>
+        <label>Style<select id="summaryStyle"><option value="balanced" selected>Balanced</option><option value="bullet-points">Bullet points</option><option value="executive">Executive brief</option><option value="study-notes">Study notes</option></select></label>
+        <label>Language<select id="summaryLanguage"><option value="English" selected>English</option><option value="Hindi">Hindi</option><option value="Spanish">Spanish</option><option value="French">French</option><option value="German">German</option></select></label>
+      </section>
 
-    <div id="loading" hidden>⏳ Generating summary...</div>
+      <button id="summarizeBtn" class="primary-button" type="button">Summarize selected text</button>
+      <div id="loading" class="loading-state" hidden><span class="spinner" aria-hidden="true"></span>Generating your summary…</div>
 
-    <div id="result" hidden>
-      <h3>📝 Summary</h3>
-      <p id="summary"></p>
+      <section id="result" class="result-card" hidden>
+        <div class="section-heading"><span>📝</span><h2>Summary</h2></div>
+        <p id="summary"></p>
+        <div class="section-heading"><span>⭐</span><h2>Key points</h2></div>
+        <ul id="points"></ul>
+        <div class="section-heading"><span>💡</span><h2>Key concepts</h2></div>
+        <div id="concepts" class="concepts"></div>
+        <div class="section-heading"><span>🏷</span><h2>Keywords</h2></div>
+        <div id="keywords" class="keywords"></div>
+        <div class="reading-time"><span>⏱ Reading time</span><strong id="readingTime"></strong></div>
+        <div class="result-actions"><button id="copyBtn" class="secondary-button" type="button">Copy</button><button id="exportBtn" class="secondary-button" type="button">Export PDF</button></div>
+      </section>
 
-      <h3>⭐ Key Points</h3>
-      <ul id="points"></ul>
+      <button id="historyBtn" class="text-button" type="button">View summary history →</button>
+      <p id="toast" class="toast" role="status" aria-live="polite" hidden></p>
+    </main>
 
-      <h3>🏷 Keywords</h3>
-      <div id="keywords"></div>
-
-      <h3>⏱ Reading Time</h3>
-      <p id="readingTime"></p>
-
-      <button id="copyBtn">📋 Copy Summary</button>
-
-      <button id="historyBtn">View History</button>
-    </div>
-
+    <script src="../utils/constants.js"></script>
+    <script src="../utils/formatter.js"></script>
     <script src="../services/storage.js"></script>
+    <script src="../services/settings.js"></script>
     <script src="../services/api.js"></script>
     <script src="popup.js"></script>
   </body>

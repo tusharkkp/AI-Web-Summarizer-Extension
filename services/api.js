@@ -1,4 +1,4 @@
-async function summarizeText(text) {
+async function summarizeText(text, options = {}) {
   if (!text?.trim()) {
     throw new Error("Please select some text first.");
   }
@@ -6,32 +6,19 @@ async function summarizeText(text) {
   let response;
 
   try {
-    response = await fetch("http://localhost:3000/api/summarize", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        text,
-      }),
+    response = await chrome.runtime.sendMessage({
+      type: "SUMMARIZE_TEXT",
+      text,
+      options,
     });
   } catch (error) {
-    console.error("Could not reach the backend:", error);
-    throw new Error("Could not connect to the backend. Make sure it is running on port 3000.");
+    console.error("Could not communicate with the background service worker:", error);
+    throw new Error("Could not connect to the extension background service. Reload the extension and try again.");
   }
 
-  const data = await response.json().catch(() => null);
-
-  console.log("Backend status:", response.status);
-  console.log("Backend response:", data);
-
-  if (!response.ok) {
-    throw new Error(data?.message || `Backend request failed (HTTP ${response.status}).`);
+  if (!response?.success) {
+    throw new Error(response?.message || "The extension could not generate a summary.");
   }
 
-  if (!data?.result) {
-    throw new Error("The backend returned an empty summary.");
-  }
-
-  return data.result;
+  return response.result;
 }

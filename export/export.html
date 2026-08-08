@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Export Summary</title>
+    <link rel="stylesheet" href="export.css" />
+  </head>
+  <body>
+    <main id="printDocument" class="print-document" hidden>
+      <header>
+        <p>AI WEB SUMMARIZER</p>
+        <p>A Extension by Tushar Kaldate</p>
+        <h1>Summary</h1>
+        <time id="createdAt"></time>
+      </header>
+      <section>
+        <h2>Summary</h2>
+        <p id="summary"></p>
+      </section>
+      <section>
+        <h2>Key points</h2>
+        <ul id="points"></ul>
+      </section>
+      <section id="conceptSection">
+        <h2>Key concepts</h2>
+        <ul id="concepts"></ul>
+      </section>
+      <section>
+        <h2>Keywords</h2>
+        <div id="keywords" class="keywords"></div>
+      </section>
+      <footer>Reading time: <strong id="readingTime"></strong></footer>
+    </main>
+    <p id="error" class="error" hidden></p>
+    <div class="screen-actions">
+      <button id="printBtn" type="button">Save as PDF</button>
+    </div>
+    <script src="../utils/formatter.js"></script>
+    <script src="../services/storage.js"></script>
+    <script src="export.js"></script>
+  </body>
+</html>

@@ -1,29 +1,26 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-<link rel="stylesheet" href="history.css">
-
-</head>
-
-<body>
-
-<h2>Summary History</h2>
-
-<input
-id="search"
-placeholder="Search summaries">
-
-<div id="historyList">
-
-</div>
-
-<script src="../services/storage.js"></script>
-
-<script src="history.js"></script>
-
-</body>
-
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Summary History · AI Web Summarizer</title>
+    <link rel="stylesheet" href="history.css" />
+  </head>
+  <body>
+    <main class="history-shell">
+      <header class="page-header">
+        <div><p class="eyebrow">AI WEB SUMMARIZER</p><h1>Summary history</h1><p class="subtitle">Your saved insights, ready when you need them.</p></div>
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+      </header>
+      <section class="stats" aria-label="Summary statistics"><article><strong id="totalCount">0</strong><span>All summaries</span></article><article><strong id="favoriteCount">0</strong><span>Favorites</span></article><article><strong id="weekCount">0</strong><span>This week</span></article></section>
+      <label class="search-label" for="search">Search your summaries</label>
+      <input id="search" type="search" placeholder="Search text, keywords, or key points" autocomplete="off" />
+      <p id="emptyState" class="empty-state" hidden>No saved summaries match your search.</p>
+      <section id="historyList" class="history-list" aria-live="polite"></section>
+    </main>
+    <script src="../utils/formatter.js"></script>
+    <script src="../services/storage.js"></script>
+    <script src="../services/settings.js"></script>
+    <script src="history.js"></script>
+  </body>
 </html>

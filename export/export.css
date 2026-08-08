@@ -1,0 +1,100 @@
+@page {
+  size: A4;
+  margin: 18mm;
+}
+body {
+  margin: 0;
+  background: #eef2f7;
+  color: #172033;
+  font-family: Inter, Arial, sans-serif;
+}
+.print-document {
+  width: min(780px, calc(100% - 40px));
+  min-height: 900px;
+  margin: 30px auto;
+  padding: 64px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+header {
+  border-bottom: 2px solid #dce3f0;
+  padding-bottom: 22px;
+}
+header p {
+  margin: 0;
+  color: #4f46e5;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+h1 {
+  margin: 10px 0 7px;
+  font-size: 34px;
+}
+time {
+  color: #64748b;
+  font-size: 13px;
+}
+section {
+  margin-top: 30px;
+}
+h2 {
+  font-size: 17px;
+}
+p,
+li {
+  line-height: 1.65;
+}
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.keywords span {
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #edf2ff;
+  color: #4338ca;
+  font-size: 12px;
+  font-weight: 700;
+}
+footer {
+  margin-top: 36px;
+  border-top: 1px solid #dce3f0;
+  padding-top: 15px;
+  color: #475569;
+}
+.screen-actions {
+  width: min(780px, calc(100% - 40px));
+  margin: 0 auto 30px;
+  text-align: right;
+}
+.screen-actions button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #4f46e5;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 750;
+}
+.error {
+  margin: 30px;
+  color: #b42318;
+  text-align: center;
+}
+@media print {
+  body {
+    background: #fff;
+  }
+  .print-document {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+  .screen-actions {
+    display: none;
+  }
+}
