@@ -28,7 +28,10 @@ router.post("/summarize", async (req, res) => {
     console.log("Received summarize request");
     console.log("Text length:", text.length);
 
-    const options = req.body?.options && typeof req.body.options === "object" ? req.body.options : {};
+    const options =
+      req.body?.options && typeof req.body.options === "object"
+        ? req.body.options
+        : {};
     const result = await summarize(text, options);
 
     res.json({ success: true, result });

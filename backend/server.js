@@ -22,16 +22,22 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(cors({
-  origin(origin, callback) {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-      callback(null, true);
-      return;
-    }
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.length === 0 ||
+        allowedOrigins.includes(origin)
+      ) {
+        callback(null, true);
+        return;
+      }
 
-    callback(new Error("Origin is not allowed by CORS."));
-  },
-}));
+      callback(new Error("Origin is not allowed by CORS."));
+    },
+  }),
+);
 
 app.use(express.json({ limit: "200kb" }));
 app.use("/api", createRateLimiter());

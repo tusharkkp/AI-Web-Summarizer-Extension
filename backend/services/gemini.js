@@ -71,8 +71,14 @@ ${text}
       }),
     });
   } catch (error) {
-    console.error("Gemini request could not be sent:", error.cause?.code || error.message);
-    throw createError("Could not reach the Gemini API. Check the backend internet connection or firewall settings.", 502);
+    console.error(
+      "Gemini request could not be sent:",
+      error.cause?.code || error.message,
+    );
+    throw createError(
+      "Could not reach the Gemini API. Check the backend internet connection or firewall settings.",
+      502,
+    );
   }
 
   const data = await response.json().catch(() => null);

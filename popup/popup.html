@@ -12,32 +12,87 @@
           <p class="eyebrow">AI WEB SUMMARIZER</p>
           <h1>Make every page clearer.</h1>
         </div>
-        <button id="themeToggle" class="icon-button" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button>
+        <button
+          id="themeToggle"
+          class="icon-button"
+          type="button"
+          aria-label="Toggle dark mode"
+          title="Toggle dark mode"
+        >
+          ◐
+        </button>
       </header>
 
       <section class="control-card" aria-label="Summary settings">
-        <label>Summary length<select id="summaryLength"><option value="short">Short</option><option value="standard" selected>Standard</option><option value="detailed">Detailed</option></select></label>
-        <label>Style<select id="summaryStyle"><option value="balanced" selected>Balanced</option><option value="bullet-points">Bullet points</option><option value="executive">Executive brief</option><option value="study-notes">Study notes</option></select></label>
-        <label>Language<select id="summaryLanguage"><option value="English" selected>English</option><option value="Hindi">Hindi</option><option value="Spanish">Spanish</option><option value="French">French</option><option value="German">German</option></select></label>
+        <label
+          >Summary length<select id="summaryLength">
+            <option value="short">Short</option>
+            <option value="standard" selected>Standard</option>
+            <option value="detailed">Detailed</option>
+          </select></label
+        >
+        <label
+          >Style<select id="summaryStyle">
+            <option value="balanced" selected>Balanced</option>
+            <option value="bullet-points">Bullet points</option>
+            <option value="executive">Executive brief</option>
+            <option value="study-notes">Study notes</option>
+          </select></label
+        >
+        <label
+          >Language<select id="summaryLanguage">
+            <option value="English" selected>English</option>
+            <option value="Hindi">Hindi</option>
+            <option value="Spanish">Spanish</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+          </select></label
+        >
       </section>
 
-      <button id="summarizeBtn" class="primary-button" type="button">Summarize selected text</button>
-      <div id="loading" class="loading-state" hidden><span class="spinner" aria-hidden="true"></span>Generating your summary…</div>
+      <button id="summarizeBtn" class="primary-button" type="button">
+        Summarize selected text
+      </button>
+      <div id="loading" class="loading-state" hidden>
+        <span class="spinner" aria-hidden="true"></span>Generating your summary…
+      </div>
 
       <section id="result" class="result-card" hidden>
-        <div class="section-heading"><span>📝</span><h2>Summary</h2></div>
+        <div class="section-heading">
+          <span>📝</span>
+          <h2>Summary</h2>
+        </div>
         <p id="summary"></p>
-        <div class="section-heading"><span>⭐</span><h2>Key points</h2></div>
+        <div class="section-heading">
+          <span>⭐</span>
+          <h2>Key points</h2>
+        </div>
         <ul id="points"></ul>
-        <div class="section-heading"><span>💡</span><h2>Key concepts</h2></div>
+        <div class="section-heading">
+          <span>💡</span>
+          <h2>Key concepts</h2>
+        </div>
         <div id="concepts" class="concepts"></div>
-        <div class="section-heading"><span>🏷</span><h2>Keywords</h2></div>
+        <div class="section-heading">
+          <span>🏷</span>
+          <h2>Keywords</h2>
+        </div>
         <div id="keywords" class="keywords"></div>
-        <div class="reading-time"><span>⏱ Reading time</span><strong id="readingTime"></strong></div>
-        <div class="result-actions"><button id="copyBtn" class="secondary-button" type="button">Copy</button><button id="exportBtn" class="secondary-button" type="button">Export PDF</button></div>
+        <div class="reading-time">
+          <span>⏱ Reading time</span><strong id="readingTime"></strong>
+        </div>
+        <div class="result-actions">
+          <button id="copyBtn" class="secondary-button" type="button">
+            Copy</button
+          ><button id="exportBtn" class="secondary-button" type="button">
+            Export PDF
+          </button>
+        </div>
       </section>
 
-      <button id="historyBtn" class="text-button" type="button">View summary history →</button>
+      <button id="historyBtn" class="text-button" type="button">
+        View summary history →
+      </button>
       <p id="toast" class="toast" role="status" aria-live="polite" hidden></p>
     </main>
 

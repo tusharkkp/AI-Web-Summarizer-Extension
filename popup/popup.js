@@ -23,7 +23,9 @@ function showToast(message, isError = false) {
   toast.classList.toggle("error", isError);
   toast.hidden = false;
   clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => { toast.hidden = true; }, 4500);
+  toastTimeout = setTimeout(() => {
+    toast.hidden = true;
+  }, 4500);
 }
 
 function setLoading(isLoading) {
@@ -32,20 +34,32 @@ function setLoading(isLoading) {
 }
 
 function getSummaryOptions() {
-  return { length: summaryLength.value, style: summaryStyle.value, language: summaryLanguage.value };
+  return {
+    length: summaryLength.value,
+    style: summaryStyle.value,
+    language: summaryLanguage.value,
+  };
 }
 
 async function getSelectedText() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab?.id) throw new Error("Could not find the active browser tab.");
 
-  await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ["content/content.js"] });
+  await chrome.scripting.executeScript({
+    target: { tabId: tab.id },
+    files: ["content/content.js"],
+  });
 
   return new Promise((resolve, reject) => {
-    chrome.tabs.sendMessage(tab.id, { action: "GET_SELECTED_TEXT" }, (response) => {
-      if (chrome.runtime.lastError) return reject(new Error(chrome.runtime.lastError.message));
-      resolve(response?.selectedText || "");
-    });
+    chrome.tabs.sendMessage(
+      tab.id,
+      { action: "GET_SELECTED_TEXT" },
+      (response) => {
+        if (chrome.runtime.lastError)
+          return reject(new Error(chrome.runtime.lastError.message));
+        resolve(response?.selectedText || "");
+      },
+    );
   });
 }
 
@@ -56,7 +70,9 @@ function renderSummary(savedSummary) {
   concepts.replaceChildren();
   keywords.replaceChildren();
 
-  const savedPoints = savedSummary.keyPoints.length ? savedSummary.keyPoints : ["No key points were returned."];
+  const savedPoints = savedSummary.keyPoints.length
+    ? savedSummary.keyPoints
+    : ["No key points were returned."];
   savedPoints.forEach((point) => {
     const item = document.createElement("li");
     item.textContent = point;
@@ -92,11 +108,19 @@ function renderSummary(savedSummary) {
 async function generateSummary(selectedText) {
   const text = selectedText.trim();
   if (!text) throw new Error("Please select some text first.");
-  if (text.length > MAX_SELECTED_TEXT_LENGTH) throw new Error(`Please select fewer than ${MAX_SELECTED_TEXT_LENGTH.toLocaleString()} characters.`);
+  if (text.length > MAX_SELECTED_TEXT_LENGTH)
+    throw new Error(
+      `Please select fewer than ${MAX_SELECTED_TEXT_LENGTH.toLocaleString()} characters.`,
+    );
 
   const aiResponse = await summarizeText(text, getSummaryOptions());
   const parsed = parseSummaryResponse(aiResponse);
-  const savedSummary = await saveSummary({ id: crypto.randomUUID(), ...parsed, createdAt: Date.now(), favorite: false });
+  const savedSummary = await saveSummary({
+    id: crypto.randomUUID(),
+    ...parsed,
+    createdAt: Date.now(),
+    favorite: false,
+  });
   currentSummary = savedSummary;
   renderSummary(savedSummary);
   showToast("Summary saved to history.");
@@ -137,7 +161,9 @@ summarizeBtn.addEventListener("click", summarizeSelection);
 copyBtn.addEventListener("click", async () => {
   if (!currentSummary) return;
   try {
-    await navigator.clipboard.writeText(formatSummaryForClipboard(currentSummary));
+    await navigator.clipboard.writeText(
+      formatSummaryForClipboard(currentSummary),
+    );
     showToast("Summary copied to clipboard.");
   } catch (error) {
     console.error("Copy failed:", error);
@@ -145,9 +171,16 @@ copyBtn.addEventListener("click", async () => {
   }
 });
 exportBtn.addEventListener("click", () => {
-  if (currentSummary) chrome.tabs.create({ url: chrome.runtime.getURL(`export/export.html?id=${encodeURIComponent(currentSummary.id)}`) });
+  if (currentSummary)
+    chrome.tabs.create({
+      url: chrome.runtime.getURL(
+        `export/export.html?id=${encodeURIComponent(currentSummary.id)}`,
+      ),
+    });
 });
-historyBtn.addEventListener("click", () => chrome.tabs.create({ url: chrome.runtime.getURL("history/history.html") }));
+historyBtn.addEventListener("click", () =>
+  chrome.tabs.create({ url: chrome.runtime.getURL("history/history.html") }),
+);
 themeToggle.addEventListener("click", async () => {
   const theme = await toggleTheme();
   showToast(`${theme === "dark" ? "Dark" : "Light"} mode enabled.`);

@@ -32,7 +32,10 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
   } catch (error) {
     // Some Chrome versions do not allow a service worker to open the popup.
     // The badge tells the user to open it manually; popup.js will consume the selection.
-    console.info("Open the extension popup to summarize the selected text.", error.message);
+    console.info(
+      "Open the extension popup to summarize the selected text.",
+      error.message,
+    );
   }
 });
 
@@ -47,14 +50,18 @@ async function requestSummary(text, options = {}) {
     });
   } catch (error) {
     console.error("Could not reach the backend:", error);
-    throw new Error("Could not connect to the backend. Make sure it is running on port 3000.");
+    throw new Error(
+      "Could not connect to the backend. Make sure it is running on port 3000.",
+    );
   }
 
   const data = await response.json().catch(() => null);
   console.log("Backend status:", response.status);
 
   if (!response.ok) {
-    throw new Error(data?.message || `Backend request failed (HTTP ${response.status}).`);
+    throw new Error(
+      data?.message || `Backend request failed (HTTP ${response.status}).`,
+    );
   }
 
   if (!data?.result) {

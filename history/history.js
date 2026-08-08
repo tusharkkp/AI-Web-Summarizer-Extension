@@ -44,10 +44,28 @@ function createCard(item) {
   const actions = document.createElement("div");
   actions.className = "card-actions";
   actions.append(
-    createButton(item.favorite ? "★ Favorited" : "☆ Favorite", "action-button", async () => { await toggleFavorite(item.id); await load(); }),
-    createButton("Copy", "action-button", async () => { await navigator.clipboard.writeText(formatSummaryForClipboard(item)); }),
-    createButton("Export PDF", "action-button", () => { chrome.tabs.create({ url: chrome.runtime.getURL(`export/export.html?id=${encodeURIComponent(item.id)}`) }); }),
-    createButton("Delete", "action-button danger-button", async () => { await deleteSummary(item.id); await load(); }),
+    createButton(
+      item.favorite ? "★ Favorited" : "☆ Favorite",
+      "action-button",
+      async () => {
+        await toggleFavorite(item.id);
+        await load();
+      },
+    ),
+    createButton("Copy", "action-button", async () => {
+      await navigator.clipboard.writeText(formatSummaryForClipboard(item));
+    }),
+    createButton("Export PDF", "action-button", () => {
+      chrome.tabs.create({
+        url: chrome.runtime.getURL(
+          `export/export.html?id=${encodeURIComponent(item.id)}`,
+        ),
+      });
+    }),
+    createButton("Delete", "action-button danger-button", async () => {
+      await deleteSummary(item.id);
+      await load();
+    }),
   );
 
   card.append(meta, summary, details, keywordList, actions);
@@ -55,9 +73,20 @@ function createCard(item) {
 }
 
 function matchesSearch(item, query) {
-  const concepts = (item.keyConcepts || []).flatMap((concept) => [concept?.term || "", concept?.explanation || ""]);
-  return [item.summary, item.readingTime, ...(item.keyPoints || []), ...(item.keywords || []), ...concepts]
-    .join(" ").toLowerCase().includes(query);
+  const concepts = (item.keyConcepts || []).flatMap((concept) => [
+    concept?.term || "",
+    concept?.explanation || "",
+  ]);
+  return [
+    item.summary,
+    item.readingTime,
+    ...(item.keyPoints || []),
+    ...(item.keywords || []),
+    ...concepts,
+  ]
+    .join(" ")
+    .toLowerCase()
+    .includes(query);
 }
 
 function render(data) {
@@ -74,7 +103,11 @@ async function updateStats() {
 
 function applySearch() {
   const query = search.value.trim().toLowerCase();
-  render(query ? allHistory.filter((item) => matchesSearch(item, query)) : allHistory);
+  render(
+    query
+      ? allHistory.filter((item) => matchesSearch(item, query))
+      : allHistory,
+  );
 }
 
 async function load() {

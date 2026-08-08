@@ -17,10 +17,16 @@ export function createRateLimiter({
       if (entry.resetAt <= now) requests.delete(key);
     }
 
-    const current = requests.get(clientId) || { count: 0, resetAt: now + windowMs };
+    const current = requests.get(clientId) || {
+      count: 0,
+      resetAt: now + windowMs,
+    };
 
     if (current.count >= maxRequests) {
-      const retryAfterSeconds = Math.max(1, Math.ceil((current.resetAt - now) / 1000));
+      const retryAfterSeconds = Math.max(
+        1,
+        Math.ceil((current.resetAt - now) / 1000),
+      );
       res.setHeader("Retry-After", retryAfterSeconds);
       return res.status(429).json({
         success: false,
@@ -31,7 +37,10 @@ export function createRateLimiter({
     current.count += 1;
     requests.set(clientId, current);
     res.setHeader("RateLimit-Limit", maxRequests);
-    res.setHeader("RateLimit-Remaining", Math.max(0, maxRequests - current.count));
+    res.setHeader(
+      "RateLimit-Remaining",
+      Math.max(0, maxRequests - current.count),
+    );
     next();
   };
 }
