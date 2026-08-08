@@ -1,1314 +1,578 @@
-# AI Web Summarizer
+<div align="center">
 
-<p align="center">
-  <strong>Turn selected web content into structured, AI-powered summaries in seconds.</strong>
-</p>
+# 🧠 AI Web Summarizer
 
-<p align="center">
-  A privacy-conscious Chrome Extension built with Manifest V3, Gemini AI, and an Express.js backend for fast webpage summarization, key-point extraction, concept discovery, keyword extraction, and reading-time estimation.
-</p>
+### An Open-Source Chrome Extension for Instant AI-Powered Webpage Summarization with Google Gemini
 
-<p align="center">
-  <a href="https://github.com/tusharkkp/AI-Web-Summarizer-Extension/stargazers">
-    <img src="https://img.shields.io/github/stars/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&logo=github" alt="GitHub stars">
-  </a>
-  <a href="https://github.com/tusharkkp/AI-Web-Summarizer-Extension/network/members">
-    <img src="https://img.shields.io/github/forks/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&logo=github" alt="GitHub forks">
-  </a>
-  <a href="https://github.com/tusharkkp/AI-Web-Summarizer-Extension/issues">
-    <img src="https://img.shields.io/github/issues/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge" alt="GitHub issues">
-  </a>
-  <a href="https://github.com/tusharkkp/AI-Web-Summarizer-Extension/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge" alt="MIT License">
-  </a>
-  <img src="https://img.shields.io/badge/Manifest-V3-blue?style=for-the-badge&logo=googlechrome" alt="Chrome Manifest V3">
-</p>
+**Select any text on the web → get a structured AI summary, key points, key concepts, and keywords in seconds — without ever leaving the page.**
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Frontend-Chrome%20Extension-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome Extension">
-  <img src="https://img.shields.io/badge/Backend-Express.js-000000?style=flat-square&logo=express&logoColor=white" alt="Express.js">
-  <img src="https://img.shields.io/badge/AI-Google%20Gemini-8E75B2?style=flat-square&logo=googlegemini&logoColor=white" alt="Google Gemini">
-  <img src="https://img.shields.io/badge/Runtime-Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js">
-  <img src="https://img.shields.io/badge/Storage-Chrome%20Storage-4285F4?style=flat-square&logo=googlechrome&logoColor=white" alt="Chrome Storage">
-</p>
+[![Manifest V3](https://img.shields.io/badge/Chrome%20Extension-Manifest%20V3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![Powered by Gemini](https://img.shields.io/badge/Powered%20by-Google%20Gemini-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
+
+[![GitHub stars](https://img.shields.io/github/stars/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&color=gold)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&color=blue)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/issues)
+[![GitHub last commit](https://img.shields.io/github/last-commit/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/commits/main)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](#-contributing)
+[![Backend](https://img.shields.io/badge/backend-self--hosted%20Express%20API-blue?style=for-the-badge)](#-installation-guide)
+
+[Features](#-features) •
+[Architecture](#-architecture--workflow) •
+[Installation](#-installation-guide) •
+[API Docs](#-api-documentation) •
+[Roadmap](#-future-scope--roadmap) •
+[Contributing](#-contributing)
+
+</div>
 
 ---
 
-## Why AI Web Summarizer?
+## 📌 Table of Contents
 
-The modern web is full of useful information, but reading every article, documentation page, research post, tutorial, or long-form resource is time-consuming.
-
-**AI Web Summarizer** lets you select the content you actually care about and transform it into a structured summary without leaving the browser.
-
-It is designed as a practical **AI-powered Chrome extension** rather than a simple text-to-summary demo. The project separates the browser UI from AI processing, keeps the Gemini API key on the backend, stores summary history locally, and provides multiple controls for how the generated summary should look.
-
-### The core idea
-
-> **Select → Summarize → Understand → Save → Reuse**
+1. [Problem Statement](#-problem-statement)
+2. [Features](#-features)
+3. [Screenshots & Demo](#-screenshots--demo)
+4. [Architecture & Workflow](#-architecture--workflow)
+5. [Tech Stack](#-tech-stack)
+6. [Project / Folder Structure](#-project--folder-structure)
+7. [Installation Guide](#-installation-guide)
+8. [Environment Variables](#-environment-variables)
+9. [Usage Guide](#-usage-guide)
+10. [API Documentation](#-api-documentation)
+11. [Security & Privacy](#-security--privacy)
+12. [Performance & Scalability](#-performance--scalability)
+13. [Future Scope / Roadmap](#-future-scope--roadmap)
+14. [Contributing](#-contributing)
+15. [License](#-license)
+16. [Author & Credits](#-author--credits)
 
 ---
 
-## Problem Statement
+## 🎯 Problem Statement
 
-People consume large amounts of information through websites every day:
+The modern web is drowning in text. Long-form articles, dense documentation, verbose blog posts, and research papers force readers to spend minutes scanning content just to decide if it's worth reading — a real productivity tax for students, developers, researchers, and knowledge workers alike.
 
-- Technical documentation
-- News articles
-- Tutorials and blogs
-- Research material
-- Educational content
-- Product and industry reports
-- Long-form web pages
+**AI Web Summarizer** solves this by turning any *highlighted text on any webpage* into a clean, structured summary — instantly, without copy-pasting into a separate AI chat tab or browser extension that leaks your API key to the client.
 
-Reading everything in full can be inefficient when the immediate goal is to understand the main ideas.
+### Pain points this project solves
 
-Traditional browser workflows require users to:
-
-1. Copy webpage content.
-2. Open a separate AI tool.
-3. Paste the content.
-4. Write a summarization prompt.
-5. Read the generated response.
-6. Manually save useful information.
-
-AI Web Summarizer reduces this friction by bringing **AI webpage summarization directly into the Chrome browsing workflow**.
-
-### Pain points addressed
-
-| Pain Point | Solution |
+| Problem | How AI Web Summarizer Solves It |
 |---|---|
-| Long webpages take time to understand | Generate concise AI summaries |
-| Switching between browser and AI tools | Summarize directly from the extension |
-| One-size-fits-all summaries | Choose length and writing style |
-| Important details can be missed | Extract key points and concepts |
-| Finding useful summaries later is difficult | Local summary history |
-| API keys should not live in browser code | Gemini calls are handled by Express |
-| Repeated API requests can become expensive | Backend rate limiting |
-| AI output can be difficult to reuse | Copy and PDF export |
+| 📖 Too much text, too little time | One-click **AI text summarization** of any selected content, right in the browser |
+| 🔑 Extensions that expose API keys in client-side code | Gemini API key lives **only** in the backend — never shipped to the browser |
+| 🧵 Losing track of what you've already read | Built-in **searchable summary history** with favorites and stats |
+| 🌍 Non-English readers underserved by AI tools | Native **multi-language summary output** (English, Hindi, Spanish, French, German) |
+| 📤 No easy way to save or share insights | One-click **copy to clipboard** and **export to PDF** |
+| 🐌 Generic summaries that miss nuance | Configurable **summary length + writing style** (bullet points, executive brief, study notes) |
+
+If you've ever searched for a **free AI summarizer Chrome extension**, a **Gemini-powered text summarization tool**, or a **Manifest V3 productivity extension** that keeps your API keys secure, this project is built for exactly that use case.
 
 ---
 
-## Features
+## ✨ Features
 
-### 🤖 AI-Powered Summarization
+### 🤖 Core AI Capabilities
+- **Instant text summarization** of any selected webpage content using the **Google Gemini API**
+- Structured output every time: **summary, key points, key concepts, keywords, and estimated reading time**
+- **3 summary lengths** — Short, Standard, Detailed
+- **4 writing styles** — Balanced, Bullet Points, Executive Brief, Study Notes
+- **5 output languages** — English, Hindi, Spanish, French, German
+- Strict **JSON-mode prompting** with source-text delimiting to reduce prompt injection risk from page content
 
-- Summarize selected webpage text using **Google Gemini AI**.
-- Generate structured output instead of an unformatted paragraph.
-- Extract:
-  - Summary
-  - Key points
-  - Key concepts
-  - Keywords
-  - Estimated reading time
+### 🖱️ User-Facing Features
+- **Right-click → "Summarize with AI"** context menu on any selected text
+- Clean, responsive **popup UI** with light/dark theme (persisted across sessions)
+- **Summary history dashboard** — search, filter, and revisit every past summary
+- **Favorites** system to pin your most useful summaries
+- **Live stats** — total summaries, favorites, and summaries created this week
+- **One-click copy** to clipboard in a clean, shareable text format
+- **Export to PDF** via a dedicated print-friendly view (`Ctrl+P → Save as PDF`)
 
-### 🎛️ Custom Summary Controls
-
-Choose how the AI should generate the result:
-
-- **Length**
-  - Short
-  - Standard
-  - Detailed
-- **Style**
-  - Balanced
-  - Bullet points
-  - Executive brief
-  - Study notes
-- **Language**
-  - English
-  - Hindi
-  - Spanish
-  - French
-  - German
-
-### 🌐 Browser Integration
-
-- Chrome Manifest V3 extension.
-- Summarize selected text from the extension popup.
-- Right-click selected text and choose **Summarize with AI**.
-- Uses a background service worker for extension-wide communication.
-- Works with the current active browser tab.
-
-### 🗂️ Summary History
-
-- Automatically save generated summaries.
-- Search previous summaries.
-- Favorite important summaries.
-- Delete summaries.
-- View summary statistics.
-- Copy saved summaries.
-- Export summaries through the browser's PDF print flow.
-
-### 🎨 User Experience
-
-- Clean popup interface.
-- Light and dark themes.
-- Loading and error states.
-- Toast notifications.
-- Structured result cards.
-- Responsive extension pages.
-
-### 🔐 Security-Oriented Backend
-
-- Gemini API key remains server-side.
-- CORS allow-list support.
-- JSON request-size limit.
-- Maximum selected-text length.
-- In-memory API rate limiter.
-- Basic security response headers.
-- `X-Powered-By` disabled.
-- Prompt explicitly treats webpage content as source material rather than instructions.
+### 🛠️ Technical & Developer Features
+- Built on **Manifest V3** using a background **service worker** (no persistent background page)
+- **Zero build tooling** — plain HTML/CSS/JS, so anyone can read, fork, and modify the code instantly
+- **API-key-free client** — all Gemini calls are proxied through a minimal Express backend
+- **Configurable rate limiting** (per-IP, in-memory, environment-driven)
+- **Request size guards** — 40,000-character text cap and 200 KB JSON body limit
+- **CORS allow-listing** for locking the API down to your published extension ID
+- `chrome.storage.local`-based persistence — no external database required
 
 ---
 
-# Architecture
+## 📸 Screenshots & Demo
 
-AI Web Summarizer uses a **Chrome Extension + Express API + Gemini AI** architecture.
+> Screenshots aren't bundled in this repository yet. Add them to a `docs/screenshots/` folder using SEO-friendly, descriptive filenames like the ones below, then this section will render them automatically on GitHub:
 
-The browser extension is responsible for user interaction and local history, while the backend acts as the secure boundary for communication with Gemini.
+| Suggested filename | What to capture |
+|---|---|
+| `docs/screenshots/ai-web-summarizer-popup-light-mode.png` | Main popup UI in light mode |
+| `docs/screenshots/ai-web-summarizer-popup-dark-mode.png` | Main popup UI in dark mode |
+| `docs/screenshots/ai-web-summarizer-context-menu.png` | The right-click "Summarize with AI" menu |
+| `docs/screenshots/ai-web-summarizer-summary-history.png` | The searchable history dashboard |
+| `docs/screenshots/ai-web-summarizer-pdf-export.png` | The print/export PDF view |
 
-## High-Level System Architecture
+Once added, embed them like this:
+
+```markdown
+![AI Web Summarizer popup UI](docs/screenshots/ai-web-summarizer-popup-light-mode.png)
+```
+
+---
+
+## 🏗 Architecture & Workflow
+
+AI Web Summarizer is a **two-part system**: a lightweight Manifest V3 Chrome extension (client) and a minimal Express.js backend (server) that owns the Gemini API key. The extension never talks to Gemini directly — every request is proxied through the backend, which is the core security design decision of this project.
+
+### High-level system architecture
 
 ```mermaid
 flowchart TD
-    U[User] --> W[Chrome Web Page]
+    A[👤 User selects text on any webpage] --> B{How is it triggered?}
+    B -->|Right-click menu| C[content.js reads window selection]
+    B -->|Click extension icon| C
+    C --> D[background.js — MV3 Service Worker]
+    D -->|"POST /api/summarize"| E[Express Backend]
+    E --> F{Rate limit & length OK?}
+    F -->|No| Z[❌ 400 / 413 / 429 error]
+    F -->|Yes| G[Gemini API — generateContent]
+    G -->|Structured JSON summary| E
+    E -->|"{ success, result }"| D
+    D --> H[popup.js parses & renders summary]
+    H --> I[(chrome.storage.local)]
+    I --> J[📚 History Dashboard]
+    I --> K[🖨️ PDF Export View]
 
-    W -->|Select text| P[Extension Popup]
-    W -->|Right-click selection| C[Context Menu]
-
-    C --> BG[Manifest V3 Background Service Worker]
-    P --> BG
-
-    BG -->|POST /api/summarize| API[Express.js Backend]
-
-    API --> RL[Rate Limiter]
-    RL --> SR[Summary Route]
-
-    SR --> GS[Gemini Service]
-    GS --> GA[Google Gemini API]
-
-    GA --> GS
-    GS --> SR
-    SR --> API
-    API --> BG
-
-    BG --> P
-    P --> R[Structured Summary UI]
-
-    P --> CS[chrome.storage.local]
-    CS --> H[Summary History]
-    CS --> S[User Settings]
-
-    H --> EX[PDF Export Page]
+    style E fill:#4f46e5,color:#fff
+    style G fill:#8E75B2,color:#fff
+    style I fill:#0ea5e9,color:#fff
 ```
 
-## Request Workflow
+### Request lifecycle (sequence diagram)
 
 ```mermaid
 sequenceDiagram
-    participant User
-    participant Chrome as Chrome Extension
-    participant Worker as Background Service Worker
-    participant Backend as Express API
-    participant Gemini as Gemini API
-    participant Storage as chrome.storage.local
+    actor U as User
+    participant CS as content.js
+    participant P as popup.js
+    participant BG as background.js (Service Worker)
+    participant API as Express Backend
+    participant G as Gemini API
+    participant S as chrome.storage.local
 
-    User->>Chrome: Select webpage text
-    User->>Chrome: Click "Summarize"
-    Chrome->>Worker: SUMMARIZE_TEXT
-    Worker->>Backend: POST /api/summarize
-    Backend->>Backend: Validate text + options
-    Backend->>Backend: Apply rate limit
-    Backend->>Gemini: Generate structured JSON
-    Gemini-->>Backend: AI summary
-    Backend-->>Worker: { success, result }
-    Worker-->>Chrome: Summary result
-    Chrome->>Storage: Save summary
-    Chrome-->>User: Render summary
+    U->>CS: Selects text, opens popup / right-clicks
+    P->>CS: chrome.tabs.sendMessage(GET_SELECTED_TEXT)
+    CS-->>P: { selectedText }
+    P->>BG: chrome.runtime.sendMessage(SUMMARIZE_TEXT)
+    BG->>API: POST /api/summarize { text, options }
+    API->>API: Validate length, JSON body, rate limit
+    API->>G: generateContent(prompt, responseMimeType: json)
+    G-->>API: Structured summary JSON (as text)
+    API-->>BG: { success: true, result }
+    BG-->>P: { success: true, result }
+    P->>P: parseSummaryResponse(result)
+    P->>S: saveSummary(parsedSummary)
+    P-->>U: Renders summary, key points, keywords, reading time
 ```
 
-## Context-Menu Workflow
+### Why this architecture?
 
-```mermaid
-flowchart LR
-    A[Select webpage text] --> B[Right-click]
-    B --> C[Summarize with AI]
-    C --> D[Background Service Worker]
-    D --> E[Store pending selection]
-    E --> F[Open extension popup]
-    F --> G[Read pending selection]
-    G --> H[POST /api/summarize]
-    H --> I[Gemini]
-    I --> J[Render + Save result]
-```
+- **Popup vs. Background separation** — `popup.js` owns rendering and user interaction only. `background.js` owns the context menu and all network calls, so the extension keeps working correctly even if the popup isn't open when a context-menu summary is requested.
+- **Backend as a security boundary** — the Gemini API key lives only in `backend/.env` and is read via `process.env`. It is never bundled into extension JavaScript, so it can't be extracted from the published `.crx`/unpacked source.
+- **No database** — summary history is inherently personal and low-volume, so `chrome.storage.local` is used instead of standing up and paying for a database.
 
 ---
 
-# How the Architecture Works
+## 🧰 Tech Stack
 
-## 1. Chrome Extension
+### Frontend — Chrome Extension (Client)
 
-The extension is built using **Manifest V3**.
-
-Major browser components include:
-
-- `popup/` — primary user interface.
-- `background/` — service worker and extension-wide communication.
-- `content/` — extracts selected webpage text.
-- `services/` — API and local storage abstractions.
-- `history/` — summary history interface.
-- `export/` — printable summary/PDF workflow.
-- `utils/` — shared constants and formatting logic.
-
-## 2. Background Service Worker
-
-The service worker is the communication hub of the extension.
-
-It:
-
-- Creates the context-menu action.
-- Receives selected text from the context menu.
-- Stores pending selections.
-- Communicates with the popup.
-- Sends summarization requests to the Express backend.
-- Keeps backend communication independent of the popup lifecycle.
-
-## 3. Express Backend
-
-The backend exposes a small REST API.
-
-Responsibilities:
-
-- Validate incoming text.
-- Validate summary options.
-- Enforce request limits.
-- Apply CORS policy.
-- Rate-limit summary requests.
-- Call Gemini.
-- Return AI-generated structured content.
-
-## 4. Gemini AI
-
-The backend sends the selected content to the **Google Gemini API** with instructions to return a predictable JSON structure containing:
-
-```json
-{
-  "summary": "...",
-  "keyPoints": ["..."],
-  "keyConcepts": [
-    {
-      "term": "...",
-      "explanation": "..."
-    }
-  ],
-  "keywords": ["..."],
-  "readingTime": "..."
-}
-```
-
-## 5. Local Storage
-
-The extension does **not currently use a traditional database**.
-
-Instead, browser-local persistence is handled by:
-
-```text
-chrome.storage.local
-```
-
-It stores:
-
-- Summary history
-- Favorite status
-- Theme preference
-- Pending context-menu selection
-
-This keeps the current architecture lightweight and avoids unnecessary database infrastructure.
-
----
-
-# Tech Stack
-
-## Frontend — Chrome Extension
-
-| Technology | Purpose | Why it is used |
-|---|---|---|
-| HTML5 | Extension pages | Simple, native browser UI |
-| CSS3 | Styling and themes | Lightweight UI without a frontend framework |
-| JavaScript | Application logic | Direct access to Chrome Extension APIs |
-| Chrome Extension APIs | Browser integration | Tabs, scripting, context menus, storage and messaging |
-| Manifest V3 | Extension platform | Current Chrome extension architecture |
-
-## Backend
-
-| Technology | Purpose | Why it is used |
-|---|---|---|
-| Node.js | Server runtime | Lightweight JavaScript backend |
-| Express.js | REST API | Simple and modular HTTP server |
-| CORS | Origin control | Restrict browser requests to approved origins |
-| dotenv | Environment configuration | Keeps secrets/configuration outside source code |
-
-## AI / Machine Learning
-
-| Technology | Purpose | Why it is used |
-|---|---|---|
-| Google Gemini API | Text summarization | Generates structured natural-language summaries |
-| Gemini 2.5 Flash | Default model | Fast model suitable for interactive summarization |
-
-## Browser Storage
-
-| Technology | Purpose |
+| Technology | Why it was used |
 |---|---|
-| `chrome.storage.local` | Summary history and settings |
-| Chrome Tabs API | Access active browser tab |
-| Chrome Scripting API | Extract selected webpage text |
-| Chrome Context Menus API | Right-click summarization |
-| Chrome Runtime Messaging | Popup ↔ service-worker communication |
+| ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) | Semantic markup for the popup, history, and export views |
+| ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) | CSS custom properties (`--primary`, `--bg`, etc.) drive instant light/dark theming without a CSS framework |
+| ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) | Vanilla ES6+ modules — zero build step, instant `Load unpacked` iteration, minimal attack surface |
+| ![Chrome Extension](https://img.shields.io/badge/Manifest%20V3-4285F4?style=flat-square&logo=googlechrome&logoColor=white) | `chrome.storage`, `chrome.contextMenus`, `chrome.scripting`, and `chrome.action` APIs power selection capture, menus, and persistence |
 
-## APIs
+### Backend — API Server
 
-### Internal API
+| Technology | Why it was used |
+|---|---|
+| ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white) | Lightweight JS runtime, same language as the extension for a shared mental model |
+| ![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express&logoColor=white) | Minimal, battle-tested routing layer for the single `/api/summarize` responsibility |
+| ![dotenv](https://img.shields.io/badge/dotenv-ECD53F?style=flat-square&logo=.env&logoColor=black) | Keeps secrets like `GEMINI_API_KEY` out of source control |
+| **Custom in-memory rate limiter** | Protects the Gemini quota and prevents abuse without adding an external dependency for a small-scale project |
 
-```text
-POST /api/summarize
-```
+### AI / ML
 
-### External API
+| Technology | Why it was used |
+|---|---|
+| ![Gemini](https://img.shields.io/badge/Google%20Gemini%20API-8E75B2?style=flat-square&logo=googlegemini&logoColor=white) | `gemini-2.5-flash` (configurable via `GEMINI_MODEL`) is used with `responseMimeType: application/json` so the model returns strictly-structured summary data instead of free-form prose |
 
-```text
-Google Gemini Generative Language API
-```
+### Data & Storage
 
-## Deployment
+| Technology | Why it was used |
+|---|---|
+| **`chrome.storage.local`** | Client-side, per-user key-value store — no server-side database needed for personal summary history, favorites, and theme settings |
 
-The repository currently targets **local development** by default:
+### Deployment & Tooling
 
-```text
-Chrome Extension
-       ↓
-http://localhost:3000
-       ↓
-Express Backend
-       ↓
-Gemini API
-```
-
-For production deployment, the backend can be hosted on a Node.js-compatible platform and exposed through HTTPS.
+| Technology | Why it was used |
+|---|---|
+| **Self-hosted / any Node host** (Render, Railway, Fly.io, a VPS, etc.) | The backend is a plain Express app with no platform lock-in — deploy it anywhere Node.js runs |
+| **Chrome Web Store** | Distribution channel for the packaged extension |
+| ![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white) | Version control and open-source collaboration |
 
 ---
 
-# Installation Guide
+## 📁 Project / Folder Structure
 
-## Prerequisites
-
-Install the following before starting:
-
-- Google Chrome or a Chromium-based browser
-- Node.js 18+ recommended
-- npm
-- A Google Gemini API key
-- Git
-
-Check Node.js and npm:
-
-```bash
-node --version
-npm --version
+```text
+AI-Web-Summarizer-Extension/
+├── assets/                     # Extension icons (16px / 48px / 128px)
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
+│
+├── background/
+│   └── background.js           # MV3 service worker: context menu + backend calls
+│
+├── content/
+│   └── content.js               # Injected script — reads window.getSelection()
+│
+├── popup/
+│   ├── popup.html                # Main extension popup UI
+│   ├── popup.css
+│   └── popup.js                  # Popup interaction logic + rendering
+│
+├── history/
+│   ├── history.html               # Saved-summary dashboard
+│   ├── history.css
+│   └── history.js                 # Search, stats, favorite, delete
+│
+├── export/
+│   ├── export.html                 # Print-friendly summary view
+│   ├── export.css
+│   └── export.js                   # Loads a saved summary → window.print()
+│
+├── services/
+│   ├── api.js                       # Bridges popup ↔ background service worker
+│   ├── settings.js                  # Theme + preference persistence
+│   └── storage.js                   # chrome.storage.local CRUD helpers
+│
+├── utils/
+│   ├── constants.js                  # BACKEND_URL, limits, dropdown option lists
+│   ├── formatter.js                  # Parses Gemini JSON, formats for clipboard/date
+│   └── helpers.js
+│
+├── backend/                           # Express API — owns the Gemini API key
+│   ├── middleware/
+│   │   └── rateLimit.js                # Per-IP in-memory rate limiter
+│   ├── routes/
+│   │   └── summary.js                  # POST /api/summarize
+│   ├── services/
+│   │   └── gemini.js                   # Prompt construction + Gemini fetch call
+│   ├── .env.example                    # Template for local environment variables
+│   ├── package.json
+│   └── server.js                       # Express app entry point, CORS, error handling
+│
+├── manifest.json                        # Chrome Extension Manifest V3 configuration
+└── README.md
 ```
+
+**Key directories explained:**
+- **`background/`** is the only place that talks to the backend — this centralizes network logic and keeps the extension working from the context menu even when the popup is closed.
+- **`services/`** and **`utils/`** are shared, dependency-free modules loaded via `<script>` tags across `popup/`, `history/`, and `export/` — no bundler required.
+- **`backend/`** is a fully independent Node.js project with its own `package.json`; it can be deployed separately from the extension itself.
 
 ---
 
-## 1. Clone the Repository
+## 🚀 Installation Guide
+
+### Prerequisites
+
+- [Google Chrome](https://www.google.com/chrome/) or any Chromium-based browser (Edge, Brave, etc.)
+- [Node.js 18+](https://nodejs.org/) and npm
+- A free **Google Gemini API key** from [Google AI Studio](https://aistudio.google.com/app/apikey)
+- `git` installed locally
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/tusharkkp/AI-Web-Summarizer-Extension.git
 cd AI-Web-Summarizer-Extension
 ```
 
----
-
-## 2. Configure the Backend
-
-Move into the backend directory:
+### 2. Set up the backend
 
 ```bash
 cd backend
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Create the environment file:
-
-### Windows PowerShell
-
-```powershell
-Copy-Item .env.example .env
-```
-
-### macOS / Linux
-
-```bash
 cp .env.example .env
 ```
 
 Open `backend/.env` and add your Gemini API key:
 
 ```env
-GEMINI_API_KEY=your_gemini_api_key
-GEMINI_MODEL=gemini-2.5-flash
-PORT=3000
-
-RATE_LIMIT_MAX=20
-RATE_LIMIT_WINDOW_MS=600000
+GEMINI_API_KEY=your_actual_gemini_api_key_here
 ```
 
-> **Never commit `backend/.env` to Git.** The real API key must remain outside the repository.
-
----
-
-## 3. Start the Backend
-
-From the `backend` directory:
+### 3. Run the backend server
 
 ```bash
 npm start
 ```
 
-For development with Node's watch mode:
+For auto-reload during development:
 
 ```bash
 npm run dev
 ```
 
-The server will listen on:
+You should see:
 
-```text
-http://localhost:3000
 ```
+Server running on port 3000
+```
+
+### 4. Load the extension in Chrome
+
+1. Open `chrome://extensions` in your browser
+2. Enable **Developer mode** (top-right toggle)
+3. Click **Load unpacked**
+4. Select the **root project folder** (the one containing `manifest.json` — not the `backend` folder)
+5. Pin the extension for quick access from the toolbar
+
+### 5. Try it out
+
+1. Highlight some text on any webpage
+2. Either click the **AI Web Summarizer** icon, or **right-click → "Summarize with AI"**
+3. Read your structured summary, key points, and keywords
+
+> 💡 **Reload the extension** from `chrome://extensions` after editing `manifest.json`, `background/background.js`, or any file loaded by the extension.
+
+### Build instructions (for publishing)
+
+This project intentionally ships with **no bundler or build step** — it runs directly as plain HTML/CSS/JS. To package it for the Chrome Web Store:
+
+1. Update `BACKEND_URL` in `utils/constants.js` to your deployed HTTPS backend URL
+2. Update `host_permissions` in `manifest.json` to match that URL
+3. In `chrome://extensions`, click **Pack extension** and select the project root — this produces a `.crx` and a `.pem` key
+4. Or zip the folder manually (excluding `backend/`, `.git/`, and `node_modules/`) for Chrome Web Store upload
 
 ---
 
-## 4. Load the Chrome Extension
+## 🔑 Environment Variables
 
-1. Open Chrome.
-2. Navigate to:
-
-```text
-chrome://extensions
-```
-
-3. Enable **Developer mode**.
-4. Click **Load unpacked**.
-5. Select the project root folder:
-
-```text
-AI-Web-Summarizer-Extension/
-```
-
-6. The **AI Web Summarizer** extension should appear in your extensions list.
-7. Pin the extension if desired.
-
----
-
-## 5. Generate Your First Summary
-
-1. Open any normal webpage.
-2. Select a section of text.
-3. Click the AI Web Summarizer extension.
-4. Choose:
-   - Summary length
-   - Summary style
-   - Output language
-5. Click **Summarize selected text**.
-6. Review the generated:
-   - Summary
-   - Key points
-   - Key concepts
-   - Keywords
-   - Reading time
-
-You can then copy, save, favorite, search, or export the result.
-
----
-
-# Right-Click Summarization
-
-The extension also supports a faster workflow.
-
-1. Select text on a webpage.
-2. Right-click.
-3. Choose **Summarize with AI**.
-4. The selection is handed to the extension background service worker.
-5. Open the extension popup if Chrome does not automatically open it.
-6. The selected text is summarized using the configured backend.
-
-This workflow avoids manually copying text into the extension.
-
----
-
-# Environment Variables
-
-The backend includes an example configuration at:
-
-```text
-backend/.env.example
-```
+All backend configuration lives in `backend/.env` (copy it from `backend/.env.example`, which is already included in this repo):
 
 | Variable | Required | Default | Description |
-|---|---:|---|---|
-| `GEMINI_API_KEY` | Yes | — | Google Gemini API credential |
-| `GEMINI_MODEL` | No | `gemini-2.5-flash` | Gemini model used for summarization |
-| `PORT` | No | `3000` | Express server port |
-| `CORS_ORIGINS` | Production recommended | — | Comma-separated allowed extension origins |
-| `RATE_LIMIT_MAX` | No | `20` | Maximum requests per rate-limit window |
-| `RATE_LIMIT_WINDOW_MS` | No | `600000` | Rate-limit window in milliseconds |
-
-### Production CORS example
-
-After loading the extension, Chrome gives it an extension ID.
-
-Configure:
+|---|:---:|---|---|
+| `GEMINI_API_KEY` | ✅ Yes | — | Your Google Gemini API key. **Server-side only — never commit this file.** |
+| `GEMINI_MODEL` | No | `gemini-2.5-flash` | Gemini model used for summarization. Swap for a different cost/speed/quality tradeoff. |
+| `PORT` | No | `3000` | Port the Express server listens on. |
+| `CORS_ORIGINS` | Recommended before publishing | *(empty = allow all origins)* | Comma-separated allow-list, e.g. `chrome-extension://<your-extension-id>`. |
+| `RATE_LIMIT_MAX` | No | `20` | Max requests allowed per IP within the rate-limit window. |
+| `RATE_LIMIT_WINDOW_MS` | No | `600000` (10 minutes) | Length of the rate-limit window, in milliseconds. |
 
 ```env
-CORS_ORIGINS=chrome-extension://YOUR_EXTENSION_ID
-```
+# backend/.env.example
+GEMINI_API_KEY=replace_with_your_key
+GEMINI_MODEL=gemini-2.5-flash
+PORT=3000
 
-For multiple allowed origins:
-
-```env
-CORS_ORIGINS=chrome-extension://EXTENSION_ID_1,chrome-extension://EXTENSION_ID_2
+# CORS_ORIGINS=chrome-extension://your-extension-id
+RATE_LIMIT_MAX=20
+RATE_LIMIT_WINDOW_MS=600000
 ```
 
 ---
 
-# API Documentation
+## 📖 Usage Guide
 
-## `POST /api/summarize`
+| Action | How to do it |
+|---|---|
+| **Summarize selected text** | Highlight text → click the extension icon → **Summarize selected text** |
+| **Summarize via right-click** | Highlight text → right-click → **Summarize with AI** |
+| **Change summary length/style/language** | Use the dropdowns at the top of the popup before summarizing |
+| **Copy a summary** | Click **Copy** on any result — formats summary, key points, keywords, and reading time as plain text |
+| **Export a summary as PDF** | Click **Export PDF** → opens a print-friendly view → `Ctrl/Cmd + P` → Save as PDF |
+| **View past summaries** | Click **View summary history →** at the bottom of the popup |
+| **Search history** | Use the search bar on the History page — matches summary text, key points, keywords, and key concepts |
+| **Favorite a summary** | Click **☆ Favorite** on any history card |
+| **Toggle dark mode** | Click the ◐ icon in the popup or history header — persists across sessions |
 
-Generates an AI summary from selected webpage text.
+---
 
-### Request
+## 📡 API Documentation
 
-```http
-POST /api/summarize
+The backend exposes a single, focused REST endpoint.
+
+### `POST /api/summarize`
+
+Generates a structured summary for the provided text using the Gemini API.
+
+**Base URL (local development):** `http://localhost:3000`
+
+**Headers**
+
+```
 Content-Type: application/json
 ```
 
-### Request Body
+**Request body**
 
-```json
-{
-  "text": "Artificial intelligence is transforming...",
-  "options": {
-    "length": "standard",
-    "style": "balanced",
-    "language": "English"
-  }
-}
+| Field | Type | Required | Description |
+|---|---|:---:|---|
+| `text` | `string` | ✅ | The source text to summarize. Max **40,000 characters**. |
+| `options.length` | `"short" \| "standard" \| "detailed"` | No | Defaults to `"standard"`. |
+| `options.style` | `"balanced" \| "bullet-points" \| "executive" \| "study-notes"` | No | Defaults to `"balanced"`. |
+| `options.language` | `"English" \| "Hindi" \| "Spanish" \| "French" \| "German"` | No | Defaults to `"English"`. |
+
+**Example request**
+
+```bash
+curl -X POST http://localhost:3000/api/summarize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Paste any long-form article or paragraph here...",
+    "options": { "length": "short", "style": "bullet-points", "language": "English" }
+  }'
 ```
 
-### Supported `length`
-
-```text
-short
-standard
-detailed
-```
-
-### Supported `style`
-
-```text
-balanced
-bullet-points
-executive
-study-notes
-```
-
-### Supported `language`
-
-```text
-English
-Hindi
-Spanish
-French
-German
-```
-
-### Successful Response
+**Example success response — `200 OK`**
 
 ```json
 {
   "success": true,
-  "result": "{\"summary\":\"...\",\"keyPoints\":[\"...\"],\"keyConcepts\":[{\"term\":\"...\",\"explanation\":\"...\"}],\"keywords\":[\"...\"],\"readingTime\":\"2 min\"}"
+  "result": "{\"summary\":\"...\",\"keyPoints\":[\"...\"],\"keyConcepts\":[{\"term\":\"...\",\"explanation\":\"...\"}],\"keywords\":[\"...\"],\"readingTime\":\"4 min\"}"
 }
 ```
 
-The extension parses the returned JSON string and validates the expected fields before saving the summary locally.
+> `result` is a JSON-formatted string produced by Gemini. The extension client parses it with `parseSummaryResponse()` into `{ summary, keyPoints, keyConcepts, keywords, readingTime }`.
 
-### Validation Errors
+### Error responses
 
-#### Empty text
+| Status | Meaning | Example message |
+|---|---|---|
+| `400` | Missing/empty text, or malformed JSON body | `"Text is required to generate a summary."` |
+| `403` | Request origin not in `CORS_ORIGINS` allow-list | `"This origin is not allowed to use the API."` |
+| `413` | Text exceeds the 40,000-character limit | `"Text must be 40,000 characters or fewer."` |
+| `429` | Rate limit exceeded (backend or upstream Gemini quota) | `"Too many summary requests. Please try again shortly."` |
+| `502` | Gemini API unreachable or returned an error | `"Could not reach the Gemini API..."` |
+| `500` | Missing `GEMINI_API_KEY` or unexpected server error | `"An unexpected server error occurred."` |
 
-```json
-{
-  "success": false,
-  "message": "Text is required to generate a summary."
-}
+Rate-limit responses include standard headers: `RateLimit-Limit`, `RateLimit-Remaining`, and `Retry-After` (on `429`).
+
+---
+
+## 🔒 Security & Privacy
+
+- The **Gemini API key never leaves the backend** — it is read from `process.env.GEMINI_API_KEY` and is not referenced anywhere in extension code that ships to the browser.
+- Selected text is sent to the backend (and then to Gemini) **only when the user explicitly requests a summary** — there is no background scraping or passive data collection.
+- Request bodies are capped at **200 KB**, and summarization text is capped at **40,000 characters**, limiting abuse and runaway API costs.
+- A configurable **in-memory rate limiter** throttles requests per IP address.
+- `backend/.env` and `backend/node_modules` are excluded from version control via `.gitignore`.
+- Before publishing publicly, set `CORS_ORIGINS` to your specific `chrome-extension://<id>` origin instead of leaving it open, and always serve the backend over **HTTPS**.
+- If you're forking this project: double-check the repo for any leftover local-only files (e.g. an unused `config.js`) before committing, and never hardcode API keys directly in client-side JavaScript.
+- Publish a privacy policy stating that selected text is transmitted to your backend and to Gemini **only** when the user triggers a summary — required for Chrome Web Store submission.
+
+---
+
+## ⚡ Performance & Scalability
+
+- **Stateless backend** — the Express server holds no persistent data of its own (aside from the in-memory rate-limit map), so it scales horizontally behind a load balancer with minimal changes.
+- **Zero-build client** — no bundler, no framework runtime, no hydration cost; the popup opens instantly.
+- **Bounded request costs** — the 40,000-character text cap and 200 KB body limit keep both latency and Gemini token usage predictable.
+- **Configurable model selection** — swap `GEMINI_MODEL` to trade off speed, quality, and cost without touching code.
+- **Client-side persistence** — `chrome.storage.local` means summary history scales with each user's own device, not with your server's database bill.
+- **Modular file layout** — `services/`, `utils/`, and `backend/` are decoupled enough that any layer (UI, storage, API) can be swapped independently (e.g. replacing the in-memory rate limiter with Redis for multi-instance deployments) without rewriting the others.
+
+---
+
+## 🗺 Future Scope / Roadmap
+
+- [ ] **Streaming responses** for real-time summary generation instead of a single blocking request
+- [ ] **Full-page summarization** (not just selected text) with automatic content extraction
+- [ ] **Firefox & Edge support** via the WebExtensions polyfill
+- [ ] **Cloud sync** of summary history across devices (optional account system)
+- [ ] **PDF and YouTube transcript summarization**
+- [ ] **Redis-backed distributed rate limiting** for multi-instance backend deployments
+- [ ] **Automated test suite** (unit tests for `backend/services/gemini.js`, `utils/formatter.js`) and CI pipeline
+- [ ] **Custom prompt templates** so users can define their own summary structure
+- [ ] Additional output languages beyond the current five
+- [ ] One-click **Chrome Web Store** listing with auto-versioned releases
+
+Have an idea that's not listed here? [Open an issue](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/issues) — feature requests are very welcome.
+
+---
+
+## 🤝 Contributing
+
+Contributions of all sizes are welcome — from fixing a typo to shipping a new feature.
+
+### Workflow
+
+1. **Fork** this repository
+2. **Clone** your fork: `git clone https://github.com/<your-username>/AI-Web-Summarizer-Extension.git`
+3. Create a feature branch:
+   ```bash
+   git checkout -b feature/short-description
+   ```
+4. Make your changes (keep the project's zero-build-step philosophy in mind for the extension code)
+5. Test locally — run the backend, load the unpacked extension, and verify the full summarize flow
+6. Commit using clear, conventional messages:
+   ```bash
+   git commit -m "feat: add streaming summary support"
+   git commit -m "fix: correct rate-limit header on 429 response"
+   ```
+7. Push and open a **Pull Request** against `main`
+
+### Issue guidelines
+
+- Search existing issues before opening a new one
+- Use a clear title and include steps to reproduce for bugs
+- Label your issue as `bug`, `enhancement`, or `docs` where possible
+- For feature requests, briefly explain the use case, not just the solution
+
+### Pull request checklist
+
+- [ ] PR description explains **what** changed and **why**
+- [ ] No secrets (`.env`, API keys) are included in the diff
+- [ ] Extension still loads cleanly via **Load unpacked** with no console errors
+- [ ] Backend still starts cleanly with `npm start`
+- [ ] Existing functionality (summarize, history, export, theme toggle) still works end-to-end
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — free for personal and commercial use, with attribution.
+
+See the [`LICENSE`](./LICENSE) file for full details.
+
 ```
-
-HTTP status:
-
-```text
-400 Bad Request
-```
-
-#### Text too large
-
-The backend accepts a maximum of **40,000 characters**.
-
-HTTP status:
-
-```text
-413 Payload Too Large
-```
-
-#### Rate limit exceeded
-
-```json
-{
-  "success": false,
-  "message": "Too many summary requests. Please try again shortly."
-}
-```
-
-HTTP status:
-
-```text
-429 Too Many Requests
+MIT License © 2026 Tushar Kaldate
 ```
 
 ---
 
-# Folder Structure
+## 👤 Author & Credits
 
-```text
-AI-Web-Summarizer-Extension/
-│
-├── assets/
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-│
-├── backend/
-│   ├── middleware/
-│   │   └── rateLimit.js
-│   │
-│   ├── routes/
-│   │   └── summary.js
-│   │
-│   ├── services/
-│   │   └── gemini.js
-│   │
-│   ├── .env.example
-│   ├── .gitignore
-│   ├── package.json
-│   ├── package-lock.json
-│   └── server.js
-│
-├── background/
-│   └── background.js
-│
-├── content/
-│   └── content.js
-│
-├── export/
-│   ├── export.css
-│   ├── export.html
-│   └── export.js
-│
-├── history/
-│   ├── history.css
-│   ├── history.html
-│   └── history.js
-│
-├── popup/
-│   ├── popup.css
-│   ├── popup.html
-│   └── popup.js
-│
-├── services/
-│   ├── api.js
-│   ├── settings.js
-│   └── storage.js
-│
-├── utils/
-│   ├── constants.js
-│   ├── formatter.js
-│   └── helpers.js
-│
-├── manifest.json
-└── README.md
-```
+**Tushar Kaldate**
 
-### Directory Responsibilities
+Built and maintained by Tushar Kaldate — feedback, issues, and pull requests are always welcome.
 
-| Directory | Responsibility |
-|---|---|
-| `assets/` | Extension icons |
-| `backend/` | Express API and Gemini integration |
-| `background/` | Manifest V3 service worker |
-| `content/` | Webpage text extraction |
-| `export/` | Printable/PDF summary view |
-| `history/` | Searchable local summary history |
-| `popup/` | Main extension interface |
-| `services/` | API, storage and settings abstractions |
-| `utils/` | Shared constants and formatting helpers |
+[![GitHub](https://img.shields.io/badge/GitHub-tusharkkp-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/tusharkkp)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Tushar%20Kaldate-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tushar-kaldate-2b5276262/)
 
 ---
 
-# Data Flow
+<div align="center">
 
-```mermaid
-flowchart TD
-    A[Webpage] --> B[Selected Text]
-    B --> C[Content Script / Context Menu]
+### ⭐ If this project helped you, consider giving it a star — it genuinely helps the project grow!
 
-    C --> D[Popup]
-    C --> E[Background Service Worker]
+[![Star History Chart](https://api.star-history.com/svg?repos=tusharkkp/AI-Web-Summarizer-Extension&type=Date)](https://star-history.com/#tusharkkp/AI-Web-Summarizer-Extension&Date)
 
-    D --> E
-    E --> F[Express POST /api/summarize]
-
-    F --> G{Validation}
-    G -->|Invalid| H[HTTP Error]
-    G -->|Valid| I[Rate Limiter]
-
-    I --> J[Gemini Service]
-    J --> K[Gemini API]
-
-    K --> J
-    J --> F
-    F --> E
-
-    E --> D
-    D --> L[Parse + Validate AI JSON]
-    L --> M[Render Result]
-    L --> N[chrome.storage.local]
-
-    N --> O[History]
-    N --> P[Favorites]
-    N --> Q[PDF Export]
-```
-
----
-
-# Screenshots
-
-No dedicated product screenshots are currently included in the repository archive.
-
-For the GitHub repository, adding screenshots is strongly recommended because browser-extension projects benefit from visual proof.
-
-A professional screenshot section should eventually include:
-
-### Main Popup
-
-```text
-docs/screenshots/popup-summary.png
-```
-
-Show:
-
-- Summary controls
-- Generated summary
-- Key points
-- Key concepts
-- Keywords
-- Reading time
-
-### Summary History
-
-```text
-docs/screenshots/summary-history.png
-```
-
-Show:
-
-- Search
-- Favorites
-- Saved summaries
-- History statistics
-
-### Context Menu
-
-```text
-docs/screenshots/context-menu.png
-```
-
-Show:
-
-- Selected webpage text
-- "Summarize with AI" context-menu action
-
-### Dark Mode
-
-```text
-docs/screenshots/dark-mode.png
-```
-
-Show the extension's dark theme.
-
-> Recommended GitHub practice: use descriptive, lowercase, hyphen-separated filenames such as `popup-summary.png` instead of names such as `Screenshot_2026-08-09.png`.
-
----
-
-# Security & Privacy
-
-Security is an important part of the architecture.
-
-## API Key Protection
-
-The Gemini API key is stored in:
-
-```text
-backend/.env
-```
-
-It is **not embedded inside the Chrome extension**.
-
-The extension communicates with the Express backend, and the backend communicates with Gemini.
-
-```text
-Chrome Extension
-      ↓
-Express Backend
-      ↓
-Gemini API
-```
-
-This prevents the Gemini API key from being directly exposed in client-side extension code.
-
-## Request Protection
-
-The backend currently includes:
-
-- 40,000-character maximum input.
-- 200 KB JSON body limit.
-- CORS configuration.
-- In-memory rate limiting.
-- `X-Content-Type-Options: nosniff`.
-- `Referrer-Policy: no-referrer`.
-- Disabled Express `X-Powered-By` header.
-
-## Prompt Injection Consideration
-
-Web content can contain text that looks like instructions.
-
-The Gemini prompt explicitly separates webpage content from the summarization instructions and tells the model to treat the supplied content as **source material, not instructions**.
-
-This is an important baseline defense for an AI application processing untrusted webpage content.
-
-## Privacy Consideration
-
-When a user requests a summary, the selected text is sent from the extension to the configured backend and then to the Gemini API for processing.
-
-The extension currently stores generated summaries locally using `chrome.storage.local`.
-
-Before public distribution, add a complete privacy policy describing:
-
-- What information is processed.
-- Where selected text is sent.
-- How Gemini is used.
-- What is stored locally.
-- Whether server-side logs are retained.
-- How users can request deletion, if applicable.
-
----
-
-# Performance & Scalability
-
-The project is intentionally lightweight for local and small-scale usage.
-
-## Current Optimizations
-
-- Only **selected text** is sent rather than an entire webpage.
-- Text input is capped at 40,000 characters.
-- The extension avoids a traditional database.
-- Browser-local storage keeps history operations simple.
-- The background service worker centralizes API communication.
-- The backend validates inputs before invoking Gemini.
-- Rate limiting reduces uncontrolled request volume.
-- JSON response format makes client-side rendering predictable.
-
-## Current Scalability Limitation
-
-The current rate limiter uses an in-memory JavaScript `Map`.
-
-That works for a single backend instance, but it is **not suitable for horizontally scaled production deployments**, because each server instance would maintain its own request counters.
-
-A production deployment should consider:
-
-- Redis-backed rate limiting.
-- Reverse proxy rate limiting.
-- Centralized logging.
-- Request IDs and observability.
-- Authentication or user-level quotas.
-- Queue-based processing for high-volume workloads.
-- Persistent server-side analytics if required.
-
-## Modularity
-
-The codebase separates:
-
-```text
-UI
-↓
-Extension Services
-↓
-Background Worker
-↓
-REST API
-↓
-AI Service
-```
-
-This makes it easier to replace:
-
-- Gemini with another LLM provider.
-- Chrome storage with a database.
-- The extension UI with another frontend approach.
-- The local backend with a production cloud service.
-
----
-
-# Production Deployment
-
-The repository is configured for local development by default.
-
-For a production release:
-
-### 1. Deploy the Express backend
-
-Use any Node.js-compatible hosting platform that supports HTTPS.
-
-### 2. Configure environment variables
-
-Set:
-
-```env
-GEMINI_API_KEY=...
-GEMINI_MODEL=gemini-2.5-flash
-PORT=...
-CORS_ORIGINS=chrome-extension://YOUR_EXTENSION_ID
-```
-
-### 3. Update the extension backend URL
-
-The current extension uses:
-
-```js
-const BACKEND_URL = "http://localhost:3000";
-```
-
-Change this to your HTTPS backend URL before production packaging.
-
-### 4. Review Chrome extension permissions
-
-Keep permissions limited to what the extension actually requires.
-
-### 5. Publish a privacy policy
-
-This is especially important before distributing the extension publicly.
-
----
-
-# Build & Release Checklist
-
-Before publishing a release:
-
-- [ ] Backend deployed with HTTPS.
-- [ ] `GEMINI_API_KEY` stored only as a server environment variable.
-- [ ] `CORS_ORIGINS` configured.
-- [ ] Production `BACKEND_URL` configured.
-- [ ] Rate limiting reviewed.
-- [ ] Privacy policy published.
-- [ ] Extension permissions reviewed.
-- [ ] Error states tested.
-- [ ] Context-menu workflow tested.
-- [ ] Popup workflow tested.
-- [ ] PDF export tested.
-- [ ] History/search/favorites tested.
-- [ ] Chrome extension package tested on a clean browser profile.
-- [ ] README screenshots added.
-- [ ] License included.
-- [ ] Version number updated in `manifest.json`.
-
----
-
-# Future Scope
-
-The current architecture provides a strong base for a more advanced AI reading assistant.
-
-## Planned / Potential Enhancements
-
-### 🧠 Smarter AI Features
-
-- Full-page summarization.
-- Multi-page summarization.
-- Article-aware summarization.
-- Automatic topic classification.
-- Fact extraction.
-- Question answering over selected content.
-- Follow-up chat with the summarized webpage.
-- Custom user prompts.
-- Source-grounded answers.
-- Multiple AI model support.
-
-### 📚 Knowledge Management
-
-- Cloud synchronization.
-- Collections and folders.
-- Tags.
-- Advanced semantic search.
-- Vector embeddings.
-- Personal knowledge base.
-- Export to Markdown.
-- Export to Notion or other productivity tools.
-
-### 🌍 Browser Support
-
-- Firefox extension.
-- Microsoft Edge support.
-- Additional Chromium-based browsers.
-
-### 🚀 Infrastructure
-
-- Redis-based distributed rate limiting.
-- User authentication.
-- Usage quotas.
-- Analytics dashboard.
-- Centralized logging.
-- Automated CI/CD.
-- Automated tests.
-
-### 🔒 Security
-
-- Stronger content isolation.
-- Request authentication.
-- Abuse prevention.
-- Secure production secrets management.
-- Privacy-preserving telemetry.
-
----
-
-# Contributing
-
-Contributions are welcome.
-
-If you want to improve the project:
-
-## 1. Fork the repository
-
-Click **Fork** on GitHub.
-
-## 2. Clone your fork
-
-```bash
-git clone https://github.com/YOUR_USERNAME/AI-Web-Summarizer-Extension.git
-cd AI-Web-Summarizer-Extension
-```
-
-## 3. Create a feature branch
-
-```bash
-git checkout -b feature/your-feature-name
-```
-
-Examples:
-
-```text
-feature/full-page-summary
-feature/firefox-support
-feature/markdown-export
-fix/context-menu-error
-fix/gemini-response-parser
-```
-
-## 4. Make your changes
-
-Keep changes focused and maintain the existing separation between:
-
-- Extension UI
-- Browser services
-- Background worker
-- Backend routes
-- AI service
-
-## 5. Test locally
-
-At minimum, verify:
-
-- Extension loads without errors.
-- Text selection works.
-- Popup summarization works.
-- Context-menu summarization works.
-- Backend API responds correctly.
-- Invalid requests return useful errors.
-- History is persisted.
-- Favorites work.
-- PDF export works.
-
-## 6. Commit
-
-Use clear commit messages:
-
-```bash
-git add .
-git commit -m "feat: add full-page summarization"
-```
-
-## 7. Push and open a Pull Request
-
-```bash
-git push origin feature/your-feature-name
-```
-
-Then open a pull request against the `main` branch.
-
-### Good issues include
-
-- Clear reproduction steps.
-- Expected behavior.
-- Actual behavior.
-- Browser/OS information when relevant.
-- Console or backend error messages.
-- Screenshots for UI problems.
-
----
-
-# Roadmap
-
-```text
-Current
-  │
-  ├── Selected-text AI summarization
-  ├── Gemini integration
-  ├── Context-menu workflow
-  ├── Summary history
-  ├── Favorites + search
-  ├── PDF export
-  └── Light/dark mode
-        │
-        ▼
-Next
-  │
-  ├── Full-page summarization
-  ├── Better source extraction
-  ├── Custom prompts
-  ├── Markdown export
-  └── Improved testing
-        │
-        ▼
-Advanced
-  │
-  ├── Follow-up AI chat
-  ├── Knowledge base
-  ├── Cloud sync
-  ├── Multi-model support
-  └── Cross-browser support
-```
-
----
-
-# Why This Project?
-
-AI Web Summarizer is more than a basic Gemini API demo.
-
-It demonstrates how to combine:
-
-- Browser extension development
-- Manifest V3 architecture
-- Chrome Extension APIs
-- JavaScript application design
-- REST API development
-- Express.js backend engineering
-- Generative AI integration
-- Prompt engineering
-- Structured AI output
-- Local browser storage
-- API security practices
-- Rate limiting
-- CORS configuration
-- User-focused UI/UX
-
-It is a practical example of building a **full-stack AI browser extension** with a clear separation between client-side functionality and server-side AI access.
-
----
-
-# SEO Keywords
-
-AI Web Summarizer naturally targets searches and use cases around:
-
-**AI web summarizer, AI Chrome extension, webpage summarizer, Chrome summarization extension, Gemini Chrome extension, Gemini AI summarizer, AI article summarizer, webpage text summarizer, browser AI assistant, selected text summarizer, AI reading assistant, Chrome Manifest V3 extension, Express.js AI backend, Gemini API Node.js, JavaScript AI project, generative AI browser extension, AI productivity tool, automatic webpage summary, key points extractor, AI study notes generator.**
-
----
-
-# License
-
-This project is released under the **MIT License**.
-
-See [`LICENSE`](./LICENSE) for the complete license text.
-
-The MIT License permits users to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the software, subject to the license terms.
-
----
-
-# Author & Credits
-
-## Tushar Kaldate
-
-Computer Engineering student and developer interested in **AI, full-stack development, software engineering, and practical developer tools**.
-
-- GitHub: [@tusharkkp](https://github.com/tusharkkp)
-- LinkedIn: [Tushar Kaldate](https://www.linkedin.com/in/tushar-kaldate-2b5276262/)
-
-### Built With
-
-- Google Gemini API
-- Node.js
-- Express.js
-- Chrome Extensions API
-- Manifest V3
-
----
-
-# Support the Project
-
-If you find **AI Web Summarizer** useful:
-
-⭐ **Star the repository** to support the project.
-
-🍴 **Fork it** and build your own AI-powered browser workflows.
-
-🐛 **Open an issue** if you find a bug.
-
-💡 **Suggest a feature** if you have an idea.
-
-🤝 **Contribute** through a pull request.
-
-Repository:
-
-**https://github.com/tusharkkp/AI-Web-Summarizer-Extension**
-
----
-
-<p align="center">
-  <strong>Read less. Understand more.</strong>
-</p>
-
-<p align="center">
-  Built with JavaScript, Express.js, and Gemini AI.
-</p>
+</div>
