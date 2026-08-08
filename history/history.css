@@ -1,0 +1,27 @@
+body{
+
+font-family:Arial;
+
+padding:20px;
+
+width:600px;
+
+}
+
+.card{
+
+border:1px solid #ddd;
+
+padding:15px;
+
+margin-bottom:15px;
+
+border-radius:10px;
+
+}
+
+button{
+
+margin-right:10px;
+
+}

@@ -9,84 +9,126 @@ const keywords = document.getElementById("keywords");
 const readingTime = document.getElementById("readingTime");
 
 const copyBtn = document.getElementById("copyBtn");
+const historyBtn = document.getElementById("historyBtn");
 
 summarizeBtn.addEventListener("click", async () => {
   loading.hidden = false;
   result.hidden = true;
 
-  const [tab] = await chrome.tabs.query({
-    active: true,
-    currentWindow: true,
-  });
+  try {
+    const [tab] = await chrome.tabs.query({
+      active: true,
+      currentWindow: true,
+    });
 
-  await chrome.scripting.executeScript({
-    target: {
-      tabId: tab.id,
-    },
-    files: ["content/content.js"],
-  });
+    await chrome.scripting.executeScript({
+      target: {
+        tabId: tab.id,
+      },
+      files: ["content/content.js"],
+    });
 
-  chrome.tabs.sendMessage(
-    tab.id,
-    {
-      action: "GET_SELECTED_TEXT",
-    },
-    async (response) => {
-      if (!response || !response.selectedText) {
-        loading.hidden = true;
-        alert("Please select some text first.");
+    chrome.tabs.sendMessage(
+      tab.id,
+      {
+        action: "GET_SELECTED_TEXT",
+      },
+      async (response) => {
+        try {
+          if (!response || !response.selectedText) {
+            loading.hidden = true;
 
-        return;
-      }
+            alert("Please select some text first.");
 
-      try {
-        const aiResponse = await summarizeText(response.selectedText);
+            return;
+          }
 
-        const clean = aiResponse
-          .replace(/```json/g, "")
-          .replace(/```/g, "")
-          .trim();
+          const aiResponse = await summarizeText(response.selectedText);
 
-        const parsed = JSON.parse(clean);
+          console.log("Raw Gemini Response:");
+          console.log(aiResponse);
 
-        summary.textContent = parsed.summary;
+          // -------- Extract JSON safely --------
 
-        readingTime.textContent = parsed.readingTime;
+          const start = aiResponse.indexOf("{");
+          const end = aiResponse.lastIndexOf("}");
 
-        points.innerHTML = "";
+          if (start === -1 || end === -1) {
+            throw new Error("Gemini did not return valid JSON.");
+          }
 
-        parsed.keyPoints.forEach((point) => {
-          const li = document.createElement("li");
+          const jsonString = aiResponse.substring(start, end + 1);
 
-          li.textContent = point;
+          console.log("Extracted JSON:");
+          console.log(jsonString);
 
-          points.appendChild(li);
-        });
+          const parsed = JSON.parse(jsonString);
 
-        keywords.innerHTML = "";
+          // -------- Save History --------
 
-        parsed.keywords.forEach((word) => {
-          const chip = document.createElement("span");
+          await saveSummary({
+            id: crypto.randomUUID(),
 
-          chip.className = "keyword";
+            summary: parsed.summary,
 
-          chip.textContent = word;
+            keyPoints: parsed.keyPoints,
 
-          keywords.appendChild(chip);
-        });
+            keywords: parsed.keywords,
 
-        loading.hidden = true;
+            readingTime: parsed.readingTime,
 
-        result.hidden = false;
-      } catch (err) {
-        console.error(err);
+            createdAt: Date.now(),
 
-        loading.hidden = true;
+            favorite: false,
+          });
 
-        alert("Failed to generate summary.");
-      }
-    },
-  );
+          // -------- UI --------
+
+          summary.textContent = parsed.summary;
+
+          readingTime.textContent = parsed.readingTime;
+
+          points.innerHTML = "";
+
+          parsed.keyPoints.forEach((point) => {
+            const li = document.createElement("li");
+
+            li.textContent = point;
+
+            points.appendChild(li);
+          });
+
+          keywords.innerHTML = "";
+
+          parsed.keywords.forEach((word) => {
+            const chip = document.createElement("span");
+
+            chip.className = "keyword";
+
+            chip.textContent = word;
+
+            keywords.appendChild(chip);
+          });
+
+          loading.hidden = true;
+
+          result.hidden = false;
+        } catch (err) {
+          console.error(err);
+
+          loading.hidden = true;
+
+          alert(err.message);
+        }
+      },
+    );
+  } catch (err) {
+    console.error(err);
+
+    loading.hidden = true;
+
+    alert(err.message);
+  }
 });
 
 copyBtn.addEventListener("click", () => {
@@ -97,4 +139,10 @@ copyBtn.addEventListener("click", () => {
   setTimeout(() => {
     copyBtn.textContent = "📋 Copy Summary";
   }, 1500);
+});
+
+historyBtn.addEventListener("click", () => {
+  chrome.tabs.create({
+    url: chrome.runtime.getURL("history/history.html"),
+  });
 });

@@ -5,9 +5,7 @@
 
   "version": "1.0.0",
 
-  "description": "Summarize selected text using Gemini AI.",
-
-  "permissions": ["activeTab", "scripting"],
+  "permissions": ["storage", "activeTab", "scripting"],
 
   "host_permissions": ["<all_urls>"],
 
