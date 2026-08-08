@@ -568,11 +568,3 @@ Built and maintained by Tushar Kaldate — feedback, issues, and pull requests a
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Tushar%20Kaldate-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/tushar-kaldate-2b5276262/)
 
 ---
-
-<div align="center">
-
-### ⭐ If this project helped you, consider giving it a star — it genuinely helps the project grow!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=tusharkkp/AI-Web-Summarizer-Extension&type=Date)](https://star-history.com/#tusharkkp/AI-Web-Summarizer-Extension&Date)
-
-</div>
