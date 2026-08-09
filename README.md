@@ -11,11 +11,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](./LICENSE)
 
-[![GitHub stars](https://img.shields.io/github/stars/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&color=gold)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge&color=blue)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/issues)
-[![GitHub last commit](https://img.shields.io/github/last-commit/tusharkkp/AI-Web-Summarizer-Extension?style=for-the-badge)](https://github.com/tusharkkp/AI-Web-Summarizer-Extension/commits/main)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge)](#-contributing)
+
 [![Backend](https://img.shields.io/badge/backend-self--hosted%20Express%20API-blue?style=for-the-badge)](#-installation-guide)
 
 [Features](#-features) •
